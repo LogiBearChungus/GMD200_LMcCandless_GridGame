@@ -154,8 +154,14 @@ MonoBehaviour:
   numRows: 5
   numCols: 6
   padding: 0.1
+  numTreasures: 3
+  numTraps: 2
   tilePrefab: {fileID: -8297978859453878394, guid: 55c88cc064b7ff44d905c9a5f3c460da, type: 3}
   text: {fileID: 1721893627}
+  playerPrefab: {fileID: 8021355259863861632, guid: b84b0cd49ad335a4198499da8457e7ce, type: 3}
+  playerStartCoords: {x: 0, y: 0}
+  player: {fileID: 0}
+  guardPrefab: {fileID: 1488620251604282321, guid: f5e485921ce1c314684027bb137fd7c9, type: 3}
 --- !u!4 &44103973
 Transform:
   m_ObjectHideFlags: 0
@@ -207,7 +213,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

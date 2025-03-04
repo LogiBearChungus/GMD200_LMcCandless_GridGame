@@ -24,8 +24,20 @@ public class PlayerController : MonoBehaviour
             if (IsValidMove(targetCoords))
             {
                 playerCoords = targetCoords;
-                Vector2 targetPos = new Vector2(targetCoords.x + (gridManager.padding * targetCoords.x), targetCoords.y + (gridManager.padding * targetCoords.y));
-                StartCoroutine(MoveToPosition(targetPos));
+
+                // Fixed the tile index calculation (swapped x and y)
+                int index = targetCoords.x * gridManager.numRows + targetCoords.y;
+                if (index < gridManager.transform.childCount)
+                {
+                    GridTile targetTile = gridManager.transform.GetChild(index).GetComponent<GridTile>();
+                    targetTile.CollectTreasure(this);
+                    targetTile.ActivateTrap(this);
+                    gridManager.OnTileHoverEnter(targetTile);
+
+                    // Adjusted target position calculation
+                    Vector2 targetPos = new Vector2(targetCoords.x + (gridManager.padding * targetCoords.x), targetCoords.y + (gridManager.padding * targetCoords.y));
+                    StartCoroutine(MoveToPosition(targetPos));
+                }
             }
         }
     }
