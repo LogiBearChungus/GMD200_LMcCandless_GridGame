@@ -5,12 +5,20 @@ using UnityEngine;
 public class GuardController : MonoBehaviour
 {
     public GridManager gridManager;
-    public Vector2Int[] patrolPath; // List of grid positions the guard will follow
-    public float moveSpeed = 1f; // Adjusted speed for movement (higher value = faster movement)
-    private int patrolIndex = 0;
+    public PlayerController player; // Reference to player
+    public Vector2Int patrolPointA; // First patrol point
+    public Vector2Int patrolPointB; // Second patrol point
+    public float moveSpeed = 1f; // Speed of movement
+
+    private Vector2Int currentTarget;
+    private Vector2Int currentPos;
+    private bool movingToA = true; // Determines patrol direction
 
     private void Start()
     {
+        currentPos = patrolPointA; // Start at point A
+        currentTarget = patrolPointB; // Move towards point B first
+        transform.localPosition = GetTileWorldPosition(currentPos);
         StartCoroutine(PatrolRoutine());
     }
 
@@ -18,57 +26,57 @@ public class GuardController : MonoBehaviour
     {
         while (true)
         {
-            // Get the target position for the guard (the next patrol point)
-            Vector2 targetPos = new Vector2(patrolPath[patrolIndex].x + (gridManager.padding * patrolPath[patrolIndex].x),
-                                            patrolPath[patrolIndex].y + (gridManager.padding * patrolPath[patrolIndex].y));
+            // Move one step toward the target
+            currentPos = MoveOneStep(currentPos, currentTarget);
+            transform.localPosition = GetTileWorldPosition(currentPos);
 
-            // Move to the target position
-            yield return StartCoroutine(MoveToPosition(targetPos));
+            // Check if the guard reached the patrol point
+            if (currentPos == currentTarget)
+            {
+                movingToA = !movingToA;
+                currentTarget = movingToA ? patrolPointA : patrolPointB;
+            }
 
-            // Move to the next patrol point
-            patrolIndex = (patrolIndex + 1) % patrolPath.Length; // Loop back to start if at the end
-            yield return new WaitForSeconds(0.5f); // Small pause before next move (this can be adjusted)
+            // Check if the guard caught the player
+            CheckForPlayer();
+
+            yield return new WaitForSeconds(0.5f); // Pause before next step
         }
     }
 
-    IEnumerator MoveToPosition(Vector2 targetPos)
+    private Vector2Int MoveOneStep(Vector2Int start, Vector2Int end)
     {
-        float elapsedTime = 0f;
-        Vector2 startingPos = transform.localPosition;
+        // Move only one tile in a straight line
+        if (start.x < end.x) return new Vector2Int(start.x + 1, start.y);
+        if (start.x > end.x) return new Vector2Int(start.x - 1, start.y);
+        if (start.y < end.y) return new Vector2Int(start.x, start.y + 1);
+        if (start.y > end.y) return new Vector2Int(start.x, start.y - 1);
 
-        // Move the guard to the target position in a smooth manner, but only move one square
-        float moveDuration = 0.3f; // Duration to move one square
-
-        while (elapsedTime < moveDuration)
-        {
-            transform.localPosition = Vector2.Lerp(startingPos, targetPos, elapsedTime / moveDuration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure the guard reaches the target position exactly
-        transform.localPosition = targetPos;
-
-        // Check if the player is caught
-        CheckForPlayer();
+        return start; // If already at the target, stay put
     }
 
+    private Vector2 GetTileWorldPosition(Vector2Int gridCoords)
+    {
+        return new Vector2(gridCoords.x + (gridManager.padding * gridCoords.x),
+                           gridCoords.y + (gridManager.padding * gridCoords.y));
+    }
 
     private void CheckForPlayer()
     {
-        Vector2Int guardCoords = patrolPath[patrolIndex];
-        if (gridManager.player.playerCoords == guardCoords)
+        if (player != null && player.playerCoords == currentPos)
         {
-            Debug.Log("You got caught!");
+            Debug.Log("You got caught! Game Over.");
             // Trigger Game Over Logic Here
         }
     }
 
     public void AlertGuard(Vector2Int trapCoords)
     {
-        if (System.Array.Exists(patrolPath, p => p == trapCoords))
+        // If the trap is on a patrol tile, move directly to it
+        if (trapCoords == patrolPointA || trapCoords == patrolPointB)
         {
-            patrolIndex = System.Array.IndexOf(patrolPath, trapCoords); // Skip to the trap tile
+            currentTarget = trapCoords;
+            movingToA = (trapCoords == patrolPointA); // Adjust patrol direction
         }
     }
 }

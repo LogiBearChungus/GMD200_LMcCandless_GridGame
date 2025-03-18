@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
                     GridTile targetTile = gridManager.transform.GetChild(index).GetComponent<GridTile>();
                     targetTile.CollectTreasure(this);
                     targetTile.ActivateTrap(this);
-                    gridManager.OnTileHoverEnter(targetTile);
 
                     // Adjusted target position calculation
                     Vector2 targetPos = new Vector2(targetCoords.x + (gridManager.padding * targetCoords.x), targetCoords.y + (gridManager.padding * targetCoords.y));
