@@ -14,12 +14,16 @@ public class GuardController : MonoBehaviour
     private Vector2Int currentPos;
     private bool movingToA = true; // Determines patrol direction
 
+    public GameObject gameOverScreen;
+    public GameObject pointCanvas;
+
     private void Start()
     {
         currentPos = patrolPointA; // Start at point A
         currentTarget = patrolPointB; // Move towards point B first
         transform.localPosition = GetTileWorldPosition(currentPos);
         StartCoroutine(PatrolRoutine());
+        gameOverScreen.SetActive(false);
     }
 
     IEnumerator PatrolRoutine()
@@ -65,8 +69,9 @@ public class GuardController : MonoBehaviour
     {
         if (player != null && player.playerCoords == currentPos)
         {
-            Debug.Log("You got caught! Game Over.");
-            // Trigger Game Over Logic Here
+            Debug.Log("Game Over! You were caught!");
+            gameOverScreen.SetActive(true);
+            pointCanvas.SetActive(false);
         }
     }
 
