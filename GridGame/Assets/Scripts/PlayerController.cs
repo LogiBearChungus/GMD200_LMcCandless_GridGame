@@ -12,19 +12,31 @@ public class PlayerController : MonoBehaviour
 
     public int score = 0;
     public int moveCount = 0;
+    public int treasureCount = 0;
+    public int trapsTriggered = 0;
+
     public TMP_Text scoreText;
     public TMP_Text moveText;
 
     public GameObject gameOverScreen;
+    public GameObject winScreen;
+    public GameObject pointCanvas;
+
+    public TMP_Text winScoreText;
+    public TMP_Text winMoveText;
+    public TMP_Text winTreasureText;
+    public TMP_Text winTrapText;
 
     private void Start()
     {
         UpdateUI();
+        winScreen.SetActive(false);
     }
 
     private void Update()
     {
         if (gameOverScreen.activeSelf) return;
+        if (winScreen.activeSelf) return;
 
         Vector2Int input = Vector2Int.zero;
 
@@ -51,12 +63,18 @@ public class PlayerController : MonoBehaviour
                     if (targetTile.tileType == GridTile.TileType.Treasure)
                     {
                         score += 100;
+                        treasureCount++;
                         targetTile.CollectTreasure(this);
                     }
                     else if (targetTile.tileType == GridTile.TileType.Trap)
                     {
                         score -= 50;
+                        trapsTriggered++;
                         targetTile.ActivateTrap(this);
+                    }
+                    else if (targetTile.tileType == GridTile.TileType.Exit)
+                    {
+                        WinGame();
                     }
                 }
 
@@ -65,7 +83,7 @@ public class PlayerController : MonoBehaviour
                     targetCoords.y + (gridManager.padding * targetCoords.y)
                 );
 
-                StartCoroutine(MoveToPosition(targetPos)); 
+                StartCoroutine(MoveToPosition(targetPos));
 
                 UpdateUI();
             }
@@ -97,5 +115,16 @@ public class PlayerController : MonoBehaviour
     {
         if (scoreText != null) scoreText.text = "Score: " + score;
         if (moveText != null) moveText.text = "Moves: " + moveCount;
+    }
+
+    public void WinGame()
+    {
+        pointCanvas.SetActive(false);
+        winScreen.SetActive(true);
+
+        if (winScoreText != null) winScoreText.text = "Final Score: " + score;
+        if (winMoveText != null) winMoveText.text = "Total Moves: " + moveCount;
+        if (winTreasureText != null) winTreasureText.text = "Treasures Collected: " + treasureCount;
+        if (winTrapText != null) winTrapText.text = "Traps Triggered: " + trapsTriggered;
     }
 }

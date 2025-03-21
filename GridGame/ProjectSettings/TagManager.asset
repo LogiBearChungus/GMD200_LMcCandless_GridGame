@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Guard
+    uniqueID: 1926034965
+    locked: 0
+  - name: Player
+    uniqueID: 125111103
+    locked: 0
+  - name: Grid
+    uniqueID: 3140307835
+    locked: 0

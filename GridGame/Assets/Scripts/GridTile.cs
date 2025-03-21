@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GridTile : MonoBehaviour
 {
-    public enum TileType { Normal, Treasure, Trap }
+    public enum TileType { Normal, Treasure, Trap, Exit }
+
     public TileType tileType = TileType.Normal;
 
     public GridManager gridManager;
@@ -35,6 +36,9 @@ public class GridTile : MonoBehaviour
                 break;
             case TileType.Trap:
                 spriteRenderer.color = Color.red; // Trap tile color
+                break;
+            case TileType.Exit:
+                spriteRenderer.color = Color.grey; // Exit tile color
                 break;
             default:
                 spriteRenderer.color = Color.white; // Normal tile color

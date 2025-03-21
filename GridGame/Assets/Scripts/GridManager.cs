@@ -12,6 +12,7 @@ public class GridManager : MonoBehaviour
 
     public List<Vector2Int> treasurePositions = new List<Vector2Int>(); // Set treasure locations
     public List<Vector2Int> trapPositions = new List<Vector2Int>();     // Set trap locations
+    public Vector2Int exitPosition; // New field to specify the exit position
 
     private Dictionary<Vector2Int, GridTile> gridTiles = new Dictionary<Vector2Int, GridTile>();
 
@@ -46,6 +47,10 @@ public class GridManager : MonoBehaviour
                 else if (trapPositions.Contains(tile.gridCoords))
                 {
                     tile.SetTileType(GridTile.TileType.Trap);
+                }
+                else if (tile.gridCoords == exitPosition)
+                {
+                    tile.SetTileType(GridTile.TileType.Exit);
                 }
                 else
                 {
