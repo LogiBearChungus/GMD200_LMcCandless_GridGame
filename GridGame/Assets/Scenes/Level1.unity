@@ -152,21 +152,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: -8297978859453878394, guid: 55c88cc064b7ff44d905c9a5f3c460da, type: 3}
-  numCols: 14
-  numRows: 8
+  numCols: 5
+  numRows: 5
   padding: 0.1
   player: {fileID: 2034127466}
   treasurePositions:
-  - {x: 2, y: 2}
-  - {x: 3, y: 3}
-  - {x: 4, y: 4}
-  - {x: 5, y: 5}
-  - {x: 6, y: 6}
+  - {x: 0, y: 2}
+  - {x: 2, y: 0}
+  - {x: 4, y: 2}
   trapPositions:
-  - {x: 2, y: 3}
-  - {x: 3, y: 4}
-  - {x: 5, y: 6}
-  exitPosition: {x: 6, y: 7}
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  exitPosition: {x: 0, y: 4}
 --- !u!4 &44103973
 Transform:
   m_ObjectHideFlags: 0
@@ -485,15 +482,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1488620251604282321, guid: f5e485921ce1c314684027bb137fd7c9, type: 3}
       propertyPath: patrolPointA.y
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1488620251604282321, guid: f5e485921ce1c314684027bb137fd7c9, type: 3}
       propertyPath: patrolPointB.x
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1488620251604282321, guid: f5e485921ce1c314684027bb137fd7c9, type: 3}
       propertyPath: patrolPointB.y
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1991049280991929821, guid: f5e485921ce1c314684027bb137fd7c9, type: 3}
       propertyPath: m_SortingLayer
@@ -509,11 +506,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7785449166395223051, guid: f5e485921ce1c314684027bb137fd7c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 482.31882
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7785449166395223051, guid: f5e485921ce1c314684027bb137fd7c9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 281.6106
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7785449166395223051, guid: f5e485921ce1c314684027bb137fd7c9, type: 3}
       propertyPath: m_LocalPosition.z
